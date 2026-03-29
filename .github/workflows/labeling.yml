@@ -1,0 +1,73 @@
+name: Enforce exclusive labels
+
+on:
+  issues:
+    types: [opened, reopened, labeled, unlabeled]
+  pull_request_target:
+    types: [opened, reopened, labeled, unlabeled]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Keep only one label per group
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const groups = {
+              scope: [
+                "scope:docs",
+                "scope:feature",
+                "scope:fix",
+                "scope:tests",
+                "scope:refactor",
+                "scope:chore",
+                "scope:ci",
+                "scope:security",
+                "scope:perf",
+                "scope:ux",
+              ],
+              status: [
+                "status:triage",
+                "status:waiting",
+                "status:review",
+                "status:rework",
+                "status:done",
+                "status:open",
+                "status:progress",
+              ],
+              prio: ["prio:p0", "prio:p1", "prio:p2", "prio:p3"],
+            };
+
+            const item = context.payload.issue ?? context.payload.pull_request;
+            const issueNumber = item.number;
+
+            const current = await github.rest.issues.listLabelsOnIssue({
+              ...context.repo,
+              issue_number: issueNumber,
+            });
+
+            const currentLabels = current.data.map(l => l.name);
+            const changedLabel = context.payload.label?.name;
+
+            for (const groupLabels of Object.values(groups)) {
+              const selected = groupLabels.filter(name => currentLabels.includes(name));
+              if (selected.length <= 1) continue;
+
+              const keep = changedLabel && selected.includes(changedLabel)
+                ? changedLabel
+                : selected[0];
+
+              for (const label of selected) {
+                if (label === keep) continue;
+                await github.rest.issues.removeLabel({
+                  ...context.repo,
+                  issue_number: issueNumber,
+                  name: label,
+                });
+              }
+            }
