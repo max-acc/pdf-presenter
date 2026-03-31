@@ -1,10 +1,10 @@
 import './Sender.css'
 
 /**
- * Parses Markdown into HTML elements, wheras each line is rendered independently (except for lists).
+ * Parses Markdown into HTML elements, where each line is rendered independently (except for unordered lists).
  *
  * Each first level heading marks a new element for the output array.
- * This is done, as each slide should have its own description.
+ * This is done, as each slide should have its own notes.
  *
  * @param text  The array of strings to parse the data from. Each item is a line from the original markdown file.
  * @return An array of strings where each item contains HTML.
@@ -29,21 +29,21 @@ function parseMarkdown(text: string[] | null) {
             const match = line.match(/^#\s(.*)/);
             const content = match ? match[1] : "";
 
-            output[currentPage] = `<h3>${content}</h3>`;
+            output[currentPage] = `<h2>${content}</h2>`;
         }
         // Parse second level heading
         else if (/^##\s/.test(line)) {
             const match = line.match(/^##\s(.*)/);
             const content = match ? match[1] : "";
 
-            output[currentPage] += `<h4>${content}</h4>`;
+            output[currentPage] += `<h3>${content}</h3>`;
         }
         // Parse third level heading
         else if (/^###\s/.test(line)) {
             const match = line.match(/^###\s(.*)/);
             const content = match ? match[1] : "";
 
-            output[currentPage] += `<h5>${content}</h5>`;
+            output[currentPage] += `<h4>${content}</h4>`;
         }
         // Parse unordered list
         else if (/^\*\s/.test(line)) {
@@ -58,7 +58,7 @@ function parseMarkdown(text: string[] | null) {
                 output[currentPage] += `<ul><li>${content}</li></ul>`
             }
         }
-        // If non of the above items has matched yet, the line is a paragraph by default
+        // If none of the above items has matched yet, the line is a paragraph by default
         else {
             if (currentPage === -1) {
                 currentPage = 0;
