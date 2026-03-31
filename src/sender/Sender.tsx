@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Document, Page} from "react-pdf";
 import {Pane, SplitPane} from "react-split-pane";
 import './Sender.css'
+import MarkdownRenderer from "./Markdown";
 
 const channel = new BroadcastChannel("pdf-presenter")
 
@@ -20,7 +21,8 @@ function Sender() {
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState<string | null>(null);
     const [page, setPage] = useState(1);
-    const [numPages, setNumPages] = useState(0);
+    const [numPages, setNumPages] = useState(1);
+    const [markdown, setMarkdown] = useState<string[] | null>(null)
 
     function handleWindowOpen() {
         if (!file) {
@@ -46,6 +48,21 @@ function Sender() {
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (e.target.files && e.target.files.length > 0) {
             setFile(e.target.files[0]);
+        }
+    }
+
+    function handleMarkdownChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            const fileReader = new FileReader();
+            fileReader.readAsText(file);
+            fileReader.onload = () => {
+                const result = fileReader.result;
+                if (typeof result !== "string") return;
+                const cleaned = result.replace(/^\s*[\r\n]/gm, "");
+                const array = cleaned.split(/\r?\n/);
+                setMarkdown(array)
+            }
         }
     }
 
@@ -107,6 +124,10 @@ function Sender() {
                 </Pane>
                 <Pane minSize={"300px"} defaultSize={"50%"} className={"split-pane-pane-custom right"}>
                     <h2 style={{width: "100%"}}>Markdown Script</h2>
+                    <form>
+                        <input id={"file"} type={"file"} onChange={ handleMarkdownChange } />
+                    </form>
+                    <MarkdownRenderer markdown={markdown} pageNumber={page} />
                 </Pane>
             </SplitPane>
         </div>
