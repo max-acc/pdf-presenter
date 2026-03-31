@@ -98,12 +98,6 @@
 .split-pane-pane-custom.right {
     padding: 1em;
     box-sizing: border-box;
-
-    .markdown-to-html {
-        text-align: left;
-        padding: 2em;
-        overflow-wrap: break-word;
-    }
 }
 
 .split-pane-divider {
