@@ -83,7 +83,7 @@ function Sender() {
             <SplitPane direction={"horizontal"} className={"split-pane-custom"}>
                 <Pane minSize={"560px"} defaultSize={"50%"} className={"split-pane-pane-custom left"}>
                     <div style={{display: "block"}}>
-                        <h2 style={{width: "100%"}}>Current Slide</h2>
+                        <h1 style={{width: "100%"}}>Current Slide</h1>
                         <Document file={fileUrl} onLoadSuccess={({ numPages }) => setNumPages(numPages)} className={"document-renderer"}>
                             <Page
                                 pageNumber={page}
@@ -94,7 +94,7 @@ function Sender() {
                     </div>
                     <div>
                         <div>
-                            <h3>Next Slide</h3>
+                            <h2>Next Slide</h2>
                             <Document file={fileUrl} className={"document-renderer"}>
                                 <Page
                                     pageNumber={page + 1}
@@ -110,7 +110,7 @@ function Sender() {
                             </form>
                         </div>
                         <div>
-                            <h3>Control Slides</h3>
+                            <h2>Control Slides</h2>
                             <div>
                                 <button onClick={ prevPage } className={"page-button previous"}>
                                     Previous
@@ -123,7 +123,7 @@ function Sender() {
                     </div>
                 </Pane>
                 <Pane minSize={"300px"} defaultSize={"50%"} className={"split-pane-pane-custom right"}>
-                    <h2 style={{width: "100%"}}>Markdown Script</h2>
+                    <h1 style={{width: "100%"}}>Markdown Script</h1>
                     <form>
                         <input id={"file"} type={"file"} onChange={ handleMarkdownChange } />
                     </form>
