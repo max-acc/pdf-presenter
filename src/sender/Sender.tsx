@@ -3,6 +3,7 @@ import {Document, Page} from "react-pdf";
 import {Pane, SplitPane} from "react-split-pane";
 import './Sender.css'
 import MarkdownRenderer from "./Markdown";
+import {KEY, useKeyboardShortcut} from "./KeyboardShortcut";
 
 const channel = new BroadcastChannel("pdf-presenter")
 
@@ -77,6 +78,27 @@ function Sender() {
         setPage(pageN);
         sendPage(pageN);
     }
+
+    useKeyboardShortcut({
+        key: KEY.P,
+        onKeyDown: () => prevPage()
+    })
+    useKeyboardShortcut({
+        key: KEY.ARROW_LEFT,
+        onKeyDown: () => prevPage()
+    })
+    useKeyboardShortcut({
+        key: KEY.SPACE,
+        onKeyDown: () => nextPage()
+    })
+    useKeyboardShortcut({
+        key: KEY.N,
+        onKeyDown: () => nextPage()
+    })
+    useKeyboardShortcut({
+        key: KEY.ARROW_RIGHT,
+        onKeyDown: () => nextPage()
+    })
 
     return (
         <div className="sender">
