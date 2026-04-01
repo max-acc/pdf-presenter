@@ -1,0 +1,37 @@
+name: Deploy to GH pages.
+description: Action to deploy react app in GH pages branch.
+on:
+  pull_request:
+    branches:
+      - ["main"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repe
+        uses: actions/checkout@v4
+
+      - run: npm i
+        shell: bash
+      - run: npm ci
+        shell: bash
+      - run: npm i
+        shell: bash
+      - run: npm run build
+        shell: bash
+      - run: git config user.name github-actions
+        shell: bash
+      - run: git --work-tree build add -all
+        shell: bash
+      - run: git commit -m "Automatic Build and Deploy to GH Pages by GH Actions
+        shell: bash
+      - run: git push origin HEAD:gh-pages --force
+        shell: bash      
+    
