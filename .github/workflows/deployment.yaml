@@ -3,6 +3,7 @@ description: Action to deploy react app in GH pages branch.
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -29,7 +30,7 @@ jobs:
       - name: Build artifact
         uses: action/upload-pages-artifact@v3
         with:
-            path: build
+            path: dist
 
   deploy: 
     needs: build
