@@ -1,4 +1,4 @@
-import './Sender.css'
+import './Markdown.css'
 
 /**
  * Parses Markdown into HTML elements, where each line is rendered independently (except for unordered lists).

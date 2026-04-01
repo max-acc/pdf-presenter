@@ -1,0 +1,7 @@
+.markdown-to-html {
+    text-align: left;
+    padding: 2em;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    height: 100%;
+}

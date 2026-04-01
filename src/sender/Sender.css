@@ -16,25 +16,91 @@
     border: none !important;
     left: 0;
     top: 0;
+    overflow-y: hidden
 }
 
 .split-pane-pane-custom {
     background: var(--accent-bg);
-    overflow-x: hidden;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .split-pane-pane-custom.left {
     border-radius: 1em 0 0 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+
+    div {
+        justify-content: center;
+        padding: 1em;
+        box-sizing: border-box;
+    }
+}
+
+.slide-preview {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+}
+
+.bottom-row {
+    flex: 2;
+    display: flex;
+    gap: 1rem;
+    min-height: 0;
+}
+
+.slide-preview-next {
+    flex: 1.4;
+    display: block;
+    float: left;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.slide-control {
+    flex: 1.2;
+    display: block;
+    float: right;
+    flex-direction: column;
+    min-height: 0;
+    width: auto;
+}
+
+.document-renderer {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.document-renderer .react-pdf__Document {
+    width: 100%;
+    height: 100%;
+}
+
+.document-renderer .react-pdf__Page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none !important;
+}
+
+.document-renderer canvas {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
 }
 
 .split-pane-pane-custom.left div {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 1em;
-    box-sizing: border-box;
 
     div {
         display: block;
@@ -42,10 +108,10 @@
     }
 
     .document-renderer {
-        height: 100%;
-        max-height: 100%;
+        height: 85%;
+        max-height: 85%;
         width: 100%;
-        display: flex;
+        display: block;
         align-items: center;
         justify-content: center;
 
@@ -59,69 +125,60 @@
 
             canvas {
                 max-height: 100% !important;
-                width: 100% !important;
-                height: auto !important;
+                width: auto !important;
+                height: 100% !important;
             }
         }
     }
 }
 
-.page-button {
+input {
+    display: none;
+}
+
+.button {
     background: var(--accent);
     color: black;
     font-weight: bold;
+    font-size: 0.8em;
     height: 3em;
     border: none;
-    box-shadow: var(--shadow);
-    transition: all 0.2s ease;
+    border-radius: 1em;
     margin: 1px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
 }
 
-.page-button:hover {
-    filter: brightness(0.8);
+.button:hover {
+    filter: brightness(0.7);
+    font-weight: bolder;
 }
 
-.page-button.previous {
+.button.start {
+    margin: auto;
+    width: 13em;
+}
+
+.button.upload {
+    padding: 1em 3.6em;
+}
+
+.button.previous {
     border-radius: 1em 0 0 1em;
     width: 5em;
 }
 
-.page-button.next {
+.button.next {
     border-radius: 0 1em 1em 0;
     width: 8em;
 }
 
 .split-pane-pane-custom.right {
     border-radius: 0 1em 1em 0;
-}
-
-.split-pane-pane-custom.right {
     padding: 1em;
     box-sizing: border-box;
-
-    .markdown-to-html {
-        text-align: left;
-        padding: 2em;
-        overflow-wrap: break-word;
-    }
-}
-
-.split-pane-divider {
-    cursor: col-resize;
-    background: #e0e0e0;
-    opacity: 0.2;
-    z-index: 1;
-    box-sizing: border-box;
-    background-clip: padding-box;
-}
-
-.split-pane-divider:hover {
-    transition: all 0.2s ease;
-}
-
-.split-pane-divider:focus {
-    outline: 5px solid #2196f3;
-    outline-offset: -5px;
+    overflow-y: hidden;
 }
 
 .split-pane-divider.horizontal {
@@ -131,9 +188,16 @@
     border-right: var(--slider-width) solid rgba(255, 255, 255, 0);
     cursor: col-resize;
     background: white;
+    transition: var(--transition);
+    background: var(--slider-color) !important;
+    z-index: 1;
+    box-sizing: border-box;
+    background-clip: padding-box;
 }
 
 .split-pane-divider.horizontal:hover {
-    border-left: var(--slider-width) solid rgba(0, 0, 0, 0.5);
-    border-right: var(--slider-width) solid rgba(0, 0, 0, 0.5);
+    border-left: var(--slider-width) solid var(--accent-bg);
+    border-right: var(--slider-width) solid var(--accent-bg);
+    background: var(--accent-bg);
+    transition: var(--transition);
 }
