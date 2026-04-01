@@ -33,7 +33,7 @@ function Sender() {
         const url = URL.createObjectURL(file);
         setFileUrl(url);
 
-        window.open("../receiver", "_blank", "width=1200,height=800");
+        window.open(`${window.location.origin}${window.location.pathname}#/receiver`, "_blank", "width=1200,height=800");
     }
 
     useEffect(() => {
