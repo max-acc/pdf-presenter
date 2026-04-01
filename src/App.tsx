@@ -1,7 +1,6 @@
 import {Routes, Route, Navigate, HashRouter} from "react-router"
 import Sender from "./sender/Sender"
 import Viewer from "./receiver/Viewer"
-import './App.css'
 
 function App() {
   return (

@@ -102,51 +102,65 @@ function Sender() {
 
     return (
         <div className="sender">
-            <SplitPane direction={"horizontal"} className={"split-pane-custom"}>
-                <Pane minSize={"560px"} defaultSize={"50%"} className={"split-pane-pane-custom left"}>
-                    <div style={{display: "block"}}>
-                        <h1 style={{width: "100%"}}>Current Slide</h1>
-                        <Document file={fileUrl} onLoadSuccess={({ numPages }) => setNumPages(numPages)} className={"document-renderer"}>
-                            <Page
-                                pageNumber={page}
-                                renderTextLayer={false}
-                                renderAnnotationLayer={false}
-                            />
-                        </Document>
-                    </div>
-                    <div>
-                        <div>
-                            <h2>Next Slide</h2>
-                            <Document file={fileUrl} className={"document-renderer"}>
+            <SplitPane className={"split-pane-custom"} direction={"horizontal"}>
+                <Pane className={"split-pane-pane-custom left"} minSize={"700px"} defaultSize={"50%"}>
+                    <div className={"slide-preview"}>
+                        <h1>Current Slide</h1>
+                        <div className={"document-renderer"}>
+                            <Document file={fileUrl} onLoadSuccess={({ numPages }) => setNumPages(numPages)}>
                                 <Page
-                                    pageNumber={page + 1}
+                                    pageNumber={page}
                                     renderTextLayer={false}
                                     renderAnnotationLayer={false}
                                 />
                             </Document>
-                            <button onClick={ handleWindowOpen }>
-                                Start Presentation
-                            </button>
-                            <form>
-                                <input id={"file"} type={"file"} onChange={ handleFileChange } />
-                            </form>
                         </div>
-                        <div>
+                    </div>
+                    <div className={"bottom-row"}>
+                        <div className={"slide-preview-next"}>
+                            <h2>Next Slide</h2>
+                            <div className={"document-renderer"}>
+                                <Document file={fileUrl} className={"document-renderer"}>
+                                    <Page
+                                        pageNumber={page + 1}
+                                        renderTextLayer={false}
+                                        renderAnnotationLayer={false}
+                                    />
+                                </Document>
+                            </div>
+                        </div>
+                        <div className={"slide-control"}>
                             <h2>Control Slides</h2>
                             <div>
-                                <button onClick={ prevPage } className={"page-button previous"}>
+                                <form style={{marginBottom: "1.6em"}}>
+                                    <label htmlFor={"file"} className={"button upload"}>
+                                        Upload PDF
+                                    </label>
+                                    <input
+                                        id={"file"}
+                                        type={"file"}
+                                        onChange={ handleFileChange } />
+                                </form>
+                                <button className={"button start"} onClick={ handleWindowOpen }>
+                                    Start Presentation
+                                </button>
+                                <p style={{height: "1em"}}></p>
+                                <button onClick={ prevPage } className={"button previous"}>
                                     Previous
                                 </button>
-                                <button onClick={ nextPage } className={"page-button next"}>
+                                <button onClick={ nextPage } className={"button next"}>
                                     Next
                                 </button>
                             </div>
                         </div>
                     </div>
                 </Pane>
-                <Pane minSize={"300px"} defaultSize={"50%"} className={"split-pane-pane-custom right"}>
-                    <h1 style={{width: "100%"}}>Markdown Script</h1>
-                    <form>
+                <Pane minSize={"350px"} defaultSize={"50%"} className={"split-pane-pane-custom right"}>
+                    <h1>Notes</h1>
+                    <form style={{textAlign: "left", marginTop: "2^.5em"}}>
+                        <label htmlFor={"file"} className={"button upload"} style={{marginLeft: "2.5em"}}>
+                            Upload Markdown
+                        </label>
                         <input id={"file"} type={"file"} onChange={ handleMarkdownChange } />
                     </form>
                     <MarkdownRenderer markdown={markdown} pageNumber={page} />
