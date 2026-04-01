@@ -2,7 +2,7 @@ name: Deploy to GH pages.
 description: Action to deploy react app in GH pages branch.
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "4_deployment-pipeline"]
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repe
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -27,8 +27,9 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+        continue-on-error: false
       - name: Build artifact
-        uses: action/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
             path: dist
 
