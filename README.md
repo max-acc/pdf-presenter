@@ -9,7 +9,7 @@ screen-mirroring, the presenter is stuck seeing only the current slide, with no 
 to keep notes visible. This PDF Presenter solves exactly that by giving a dedicated control panel _(like PowerPoint or 
 Google Slides)_ while the audience sees a clean, full-screen view.
 
-## How it works
+## How It Works
 
 The application is split into two browser tabs/windows:
 
@@ -53,10 +53,18 @@ in **16:9** format.
 
 ### Markdown Notes
 
-The application allows the upload of presentation notes in **Markdown**. However not all formatting is parsed, sine
-support for some features was intentionally deprioritized.
+Upload your speaker notes as a **Markdown** file. The notes are rendered live in the control panel and stay 
+perfectly syncronized with the current slide.
 
-Currently supported formatting include:
+#### How Notes Sync With Slides
+
+A top level heading _(`#`)_ acts as the marker for a new slide. Everything that follows a `#` heading belongs to that
+specific slide, until the next top level heading appears.
+
+To see this in action and get started quickly, check a ready to use example notes file in the repository:
+[Examples](https://github.com/max-acc/pdf-presenter/tree/main/src/examples).
+
+#### Supported Markdown Formatting
 
  * Headings (`#`, `##`, `###`)
  * Unordered lists _(first level only)_
