@@ -5,7 +5,7 @@ import './Sender.css'
 import MarkdownRenderer from "./Markdown";
 import Timer, {useStopwatch} from "./Timer";
 import {KEY, useKeyboardShortcut} from "./KeyboardShortcut";
-import FittedPage from "../common/FittedPage";
+import FittedPage, {type LaserPosition} from "../common/FittedPage";
 import ToastNotification from "../common/ToastNotification";
 import Icon from "../ui/Icon";
 import {ThemeToggle} from "../ui/Theme";
@@ -28,6 +28,16 @@ function sendPage(page: number) {
     channel.postMessage({type: "SET_PAGE", page})
 }
 
+type Blank = "black" | "white" | null;
+
+function sendBlank(color: Blank) {
+    channel.postMessage({type: "BLANK", color});
+}
+
+function sendLaser(position: LaserPosition | null) {
+    channel.postMessage({type: "LASER", position});
+}
+
 function isPDF(file: File) {
     return file.type === "application/pdf" || /\.pdf$/i.test(file.name);
 }
@@ -47,6 +57,10 @@ function Sender() {
     const [dragging, setDragging] = useState(false);
     const pdfInput = useRef<HTMLInputElement>(null);
     const markdownInput = useRef<HTMLInputElement>(null);
+    const [laserActive, setLaserActive] = useState(false);
+    const [laser, setLaser] = useState<LaserPosition | null>(null);
+    const laserFrame = useRef<number | null>(null);
+    const [blank, setBlank] = useState<Blank>(null);
 
     const closeSnackbar = useCallback(() => setSnackbar(null), []);
 
@@ -69,11 +83,35 @@ function Sender() {
         const handler = (event: MessageEvent) => {
             if (event.data.type === "READY" && file) {
                 sendPDF(file, page);
+                sendBlank(blank);
             }
         };
         channel.addEventListener("message", handler);
         return () => channel.removeEventListener("message", handler);
-    }, [file, page]);
+    }, [file, page, blank]);
+
+    // Sends at most one laser position per frame, so moving the mouse does not flood the channel
+    const handleLaserMove = useCallback((position: LaserPosition | null) => {
+        setLaser(position);
+        if (laserFrame.current !== null) cancelAnimationFrame(laserFrame.current);
+        laserFrame.current = requestAnimationFrame(() => {
+            laserFrame.current = null;
+            sendLaser(position);
+        });
+    }, []);
+
+    function toggleLaser() {
+        if (laserActive) {
+            handleLaserMove(null);
+        }
+        setLaserActive(!laserActive);
+    }
+
+    function toggleBlank(color: Exclude<Blank, null>) {
+        const next = blank === color ? null : color;
+        setBlank(next);
+        sendBlank(next);
+    }
 
     function loadPDF(newFile: File) {
         setFile(newFile);
@@ -138,13 +176,22 @@ function Sender() {
         }
     }
 
+    function clearBlank() {
+        if (blank) {
+            setBlank(null);
+            sendBlank(null);
+        }
+    }
+
     function prevPage() {
+        clearBlank();
         const pageN = Math.max(page - 1, 1);
         setPage(pageN);
         sendPage(pageN);
     }
 
     function nextPage() {
+        clearBlank();
         const pageN = Math.min(page + 1, numPages);
         setPage(pageN);
         sendPage(pageN);
@@ -169,6 +216,18 @@ function Sender() {
     useKeyboardShortcut({
         key: KEY.ARROW_RIGHT,
         onKeyDown: () => nextPage()
+    })
+    useKeyboardShortcut({
+        key: KEY.L,
+        onKeyDown: () => toggleLaser()
+    })
+    useKeyboardShortcut({
+        key: KEY.B,
+        onKeyDown: () => toggleBlank("black")
+    })
+    useKeyboardShortcut({
+        key: KEY.W,
+        onKeyDown: () => toggleBlank("white")
     })
 
     return (
@@ -236,8 +295,16 @@ function Sender() {
                                     loading={null}
                                     onLoadSuccess={({ numPages }) => setNumPages(numPages)}
                                     onLoadError={() => setSnackbar(`"${file.name}" could not be opened.`)}>
-                                    <FittedPage pageNumber={page} />
+                                    <FittedPage
+                                        pageNumber={page}
+                                        laser={laserActive ? laser : null}
+                                        onLaserMove={laserActive ? handleLaserMove : undefined} />
                                 </Document>
+                                {blank && (
+                                    <div className={`blank-indicator ${blank}`}>
+                                        Screen {blank === "black" ? "blacked" : "whited"} out
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <button className={"drop-zone"} onClick={() => pdfInput.current?.click()}>
@@ -292,6 +359,33 @@ function Sender() {
                                         aria-label={"Next slide"}
                                         title={"Next slide (N, →, Space)"}>
                                         <Icon name={"chevronRight"} />
+                                    </button>
+                                </div>
+                                <div className={"tools"}>
+                                    <button
+                                        className={`icon-button tonal${laserActive ? " active" : ""}`}
+                                        onClick={ toggleLaser }
+                                        disabled={!file}
+                                        aria-pressed={laserActive}
+                                        aria-label={"Laser pointer"}
+                                        title={"Laser pointer (L)"}>
+                                        <Icon name={"laser"} />
+                                    </button>
+                                    <button
+                                        className={`icon-button tonal${blank === "black" ? " active" : ""}`}
+                                        onClick={() => toggleBlank("black")}
+                                        aria-pressed={blank === "black"}
+                                        aria-label={"Black screen"}
+                                        title={"Black screen (B)"}>
+                                        <Icon name={"blackScreen"} />
+                                    </button>
+                                    <button
+                                        className={`icon-button tonal${blank === "white" ? " active" : ""}`}
+                                        onClick={() => toggleBlank("white")}
+                                        aria-pressed={blank === "white"}
+                                        aria-label={"White screen"}
+                                        title={"White screen (W)"}>
+                                        <Icon name={"whiteScreen"} />
                                     </button>
                                 </div>
                                 <Timer stopwatch={stopwatch} />

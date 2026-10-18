@@ -18,6 +18,15 @@ export enum KEY {
 
     /** Key for letter `p`. */
     P = 'KeyP',
+
+    /** Key for letter `l`. */
+    L = 'KeyL',
+
+    /** Key for letter `b`. */
+    B = 'KeyB',
+
+    /** Key for letter `w`. */
+    W = 'KeyW',
 }
 
 interface KeyboardShortcutArgs {
