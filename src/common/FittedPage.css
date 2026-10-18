@@ -1,0 +1,26 @@
+.fitted-page {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+/* All buffered pages are stacked, only the visible one is shown */
+.fitted-page-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fitted-page-layer.hidden {
+    visibility: hidden;
+}
+
+.fitted-page .react-pdf__Page {
+    background: none !important;
+}
+
+.fitted-page canvas {
+    display: block;
+}

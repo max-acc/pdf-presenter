@@ -34,6 +34,9 @@ slide to the control panel.
  * Control the presentation using buttons or [shortcuts](#shortcuts) via the control panel
  * Preview the next slide
  * Upload notes in **Markdown** and render them inside the control panel
+ * Drag & drop the PDF and the notes onto the control panel
+ * Elapsed time since the presentation was started
+ * Material 3 design with a light and dark mode
  * Local, so there is no network connection required after loading
 
 ## Usage

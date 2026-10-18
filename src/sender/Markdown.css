@@ -1,7 +1,39 @@
 .markdown-to-html {
-    text-align: left;
-    padding: 2em;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     overflow-wrap: break-word;
-    overflow-y: scroll;
-    height: 100%;
+    text-align: left;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+}
+
+.markdown-to-html h2 {
+    margin-bottom: 12px;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 400;
+}
+
+.markdown-to-html h3 {
+    margin: 16px 0 4px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+}
+
+.markdown-to-html h4 {
+    margin: 12px 0 4px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.markdown-to-html p,
+.markdown-to-html ul {
+    margin-bottom: 8px;
 }

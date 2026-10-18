@@ -1,120 +1,214 @@
+/*
+ * Material 3 design tokens.
+ * Color scheme generated with material-color-utilities from the seed color #16a34a.
+ * Each color is `light-dark(<light>, <dark>)`, resolved through `color-scheme` (see theme selectors below).
+ */
 :root {
-  --text: #4b5563;
-  --text-h: #111827;
+  --md-sys-color-primary: light-dark(#006e2d, #62df7d);
+  --md-sys-color-on-primary: light-dark(#ffffff, #003914);
+  --md-sys-color-primary-container: light-dark(#7ffc97, #005320);
+  --md-sys-color-on-primary-container: light-dark(#002109, #7ffc97);
+  --md-sys-color-secondary: light-dark(#516351, #b8ccb6);
+  --md-sys-color-on-secondary: light-dark(#ffffff, #243425);
+  --md-sys-color-secondary-container: light-dark(#d4e8d1, #3a4b3a);
+  --md-sys-color-on-secondary-container: light-dark(#0f1f11, #d4e8d1);
+  --md-sys-color-error: light-dark(#ba1a1a, #ffb4ab);
+  --md-sys-color-surface: light-dark(#f9faf4, #111411);
+  --md-sys-color-surface-container-lowest: light-dark(#ffffff, #0c0f0c);
+  --md-sys-color-surface-container-low: light-dark(#f3f4ee, #1a1c19);
+  --md-sys-color-surface-container: light-dark(#edeee9, #1e201d);
+  --md-sys-color-surface-container-high: light-dark(#e7e9e3, #282b27);
+  --md-sys-color-surface-container-highest: light-dark(#e2e3dd, #333532);
+  --md-sys-color-on-surface: light-dark(#1a1c19, #e2e3dd);
+  --md-sys-color-on-surface-variant: light-dark(#414941, #c1c9be);
+  --md-sys-color-outline: light-dark(#727970, #8b9389);
+  --md-sys-color-outline-variant: light-dark(#c1c9be, #414941);
+  --md-sys-color-inverse-surface: light-dark(#2e312d, #e2e3dd);
+  --md-sys-color-inverse-on-surface: light-dark(#f0f1ec, #2e312d);
+  --md-sys-color-inverse-primary: light-dark(#62df7d, #006e2d);
 
-  --bg: #f9fafb;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-full: 9999px;
 
-  --accent: #16a34a;
-  --accent-bg: #eaf7ef;
-  --card: #ffffff;
+  --md-sys-elevation-level3:
+    0 1px 3px 0 rgba(0, 0, 0, 0.3),
+    0 4px 8px 3px rgba(0, 0, 0, 0.15);
 
-  --shadow:
-    rgba(0, 0, 0, 0.08) 0 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --md-sys-motion-standard: 200ms cubic-bezier(0.2, 0, 0, 1);
 
-  --slider-width: 5px;
-  --slider-color: var(--bg);
+  --font: Roboto, 'Roboto Flex', system-ui, 'Segoe UI', sans-serif;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  font: 400 16px/24px var(--font);
+  letter-spacing: 0.5px;
   color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
+:root[data-theme="light"] {
+  color-scheme: light;
+}
 
-    --bg: #16171d;
-
-    --accent: #22c55e;
-    --accent-bg: #161c18;
-    --card: #1a1d23;
-
-    --shadow:
-            rgba(0, 0, 0, 0.4) 0 10px 15px -3px,
-            rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   padding: 0;
+  background: var(--md-sys-color-surface);
 }
 
 #root {
-  max-width: 100vw;
-  margin: 0 0;
-  text-align: center;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h1, h2, h3, h4, p {
   margin: 0;
-  padding: 0;
-}
-
-h1 {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  font-size: 3em;
-  letter-spacing: -1.68px;
-}
-
-h2 {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  font-size: 1.5em;
-  letter-spacing: -0.24px;
-}
-
-h3, h4 {
-  font-weight: 700;
-  margin: 0;
-  paddign: 0;
-}
-
-h3 {
-  margin-top: 1em;
-  font-size: 1.2em;
-}
-
-h4 {
-  margin-top: 0.5em;
-  font-size: 1em;
-}
-
-p {
-  margin: 0 0;
   padding: 0;
 }
 
 a {
-  color: var(--accent);
-  opacity: 0.7;
-  text-decoration: none;
+  color: var(--md-sys-color-primary);
 }
 
 ul {
   margin: 0;
-  margin: 0.1em;
+  padding-left: 1.5em;
+}
+
+/* Icons */
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Buttons (common, filled, tonal and text) */
+
+.button,
+.icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  isolation: isolate;
+  overflow: hidden;
+  transition: background-color var(--md-sys-motion-standard), color var(--md-sys-motion-standard);
+}
+
+.button {
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px 0 16px;
+  border-radius: var(--md-sys-shape-corner-full);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+}
+
+.button .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.button.filled {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+.button.tonal {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.button.text {
+  padding: 0 12px;
+  background: transparent;
+  color: var(--md-sys-color-primary);
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
   padding: 0;
-  padding-left: 1em;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.icon-button.tonal {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.icon-button.large {
+  width: 56px;
+  height: 56px;
+}
+
+.icon-button.large .icon {
+  width: 28px;
+  height: 28px;
+}
+
+/* State layer: hover 8%, focus and press 10% of the content color */
+.button::before,
+.icon-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-standard);
+}
+
+.button:hover::before,
+.icon-button:hover::before {
+  opacity: 0.08;
+}
+
+.button:focus-visible::before,
+.icon-button:focus-visible::before,
+.button:active::before,
+.icon-button:active::before {
+  opacity: 0.1;
+}
+
+.button:focus-visible,
+.icon-button:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+}
+
+.button:disabled,
+.icon-button:disabled {
+  cursor: default;
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+  color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
+}
+
+.button.text:disabled,
+.icon-button:not(.tonal):disabled {
+  background: transparent;
+}
+
+.button:disabled::before,
+.icon-button:disabled::before {
+  display: none;
 }
