@@ -294,6 +294,39 @@
     gap: 8px;
 }
 
+.tools {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button.tonal.active {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+/* Shows on the preview that the presentation screen is blanked */
+.blank-indicator {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    pointer-events: none;
+}
+
+.blank-indicator.black {
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+}
+
+.blank-indicator.white {
+    background: rgba(255, 255, 255, 0.85);
+    color: #000;
+}
+
 .page-counter {
     min-width: 4ch;
     font-size: 32px;

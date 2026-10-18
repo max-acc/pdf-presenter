@@ -18,10 +18,12 @@ The application is split into two browser tabs/windows:
    * Live preview of the **current** slide
    * Preview of the **next** slide
    * Keyboard shortcuts & navigation
+   * Laser pointer and black/white screen
 
  * **Viewer tab**
    * Full-screen display of hte current slide only
    * Automatically stays in sync with the presenter tab
+   * Shows the laser pointer of the presenter
 
 ## Demo
 
@@ -36,6 +38,8 @@ slide to the control panel.
  * Upload notes in **Markdown** and render them inside the control panel
  * Drag & drop the PDF and the notes onto the control panel
  * Elapsed time since the presentation was started
+ * Laser pointer, which is mapped from the current slide preview onto the presentation
+ * Black or white presentation screen _(e.g. to pause the presentation)_
  * Material 3 design with a light and dark mode
  * Local, so there is no network connection required after loading
 
@@ -81,12 +85,26 @@ To see this in action and get started quickly, check a ready to use example note
 > If there is formatting you would really like to see, feel free to open an
 > [Issue](https://github.com/max-acc/pdf-presenter/issues).
 
+### Laser Pointer
+
+Activate the laser pointer via the button in the controls or with `l`. While it is active, move the mouse over the
+**current** slide in the control panel and a red dot is shown at the same position on the presentation. The position is
+relative to the slide, so it matches even if both windows have a different size or aspect ratio.
+
+### Black & White Screen
+
+Press `b` for a black and `w` for a white presentation screen _(like in PowerPoint)_. Pressing the same key again, or
+navigating to another slide, shows the presentation again. The control panel indicates when the screen is blanked.
+
 ### Shortcuts
 
-| Action     | Shortcuts                   |
-|------------|-----------------------------|
-| Previous Slide | `p`, `Left Arrow`       |
-| Next Slide | `n`, `Right Arrow`, `Space` |
+| Action                 | Shortcuts                   |
+|------------------------|-----------------------------|
+| Previous Slide         | `p`, `Left Arrow`           |
+| Next Slide             | `n`, `Right Arrow`, `Space` |
+| Toggle Laser Pointer   | `l`                         |
+| Toggle Black Screen    | `b`                         |
+| Toggle White Screen    | `w`                         |
 
 > [!NOTE]
 > If there are any shortcuts you would like to see added, feel free to open an
