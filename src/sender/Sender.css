@@ -1,203 +1,357 @@
 .sender {
     display: flex;
-    left: 0;
-    top: 0;
     flex-direction: column;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
 }
 
+/* Top app bar */
+
+.top-app-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+    flex-shrink: 0;
+    padding: 0 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--md-sys-color-primary);
+}
+
+.brand h1 {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--md-sys-color-on-surface);
+    white-space: nowrap;
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    min-width: 0;
+    padding: 0 16px 0 8px;
+    box-sizing: border-box;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.chip .icon {
+    width: 18px;
+    height: 18px;
+    color: var(--md-sys-color-primary);
+}
+
+.chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Split pane */
+
 .split-pane-custom {
+    flex: 1;
+    min-height: 0;
     width: 100% !important;
-    height: 100% !important;
-    padding: 1em;
+    padding: 0 16px 16px;
     box-sizing: border-box;
     border: none !important;
-    left: 0;
-    top: 0;
-    overflow-y: hidden
+}
+
+.sender.dragging .split-pane-custom {
+    outline: 2px dashed var(--md-sys-color-primary);
+    outline-offset: -8px;
+    border-radius: var(--md-sys-shape-corner-large);
 }
 
 .split-pane-pane-custom {
-    background: var(--accent-bg);
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.split-pane-pane-custom.left {
-    border-radius: 1em 0 0 1em;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    height: 100%;
-
-    div {
-        justify-content: center;
-        padding: 1em;
-        box-sizing: border-box;
-    }
-}
-
-.slide-preview {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
     min-height: 0;
-    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden !important;
+}
+
+/*
+ * The divider is fixed to 1px by react-split-pane, so the gap between the panes
+ * comes from their padding (6px + 1px + 5px = 12px, same as the gaps between the cards).
+ */
+.split-pane-pane-custom.left {
+    padding-right: 6px;
+}
+
+.split-pane-pane-custom.right {
+    padding-left: 5px;
+}
+
+.split-pane-divider.horizontal {
+    background: transparent !important;
+}
+
+/* Wider invisible grab area */
+.split-pane-divider.horizontal::before {
+    content: "";
+    position: absolute;
+    inset: 0 -6px;
+}
+
+/* Drag handle */
+.split-pane-divider.horizontal::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 48px;
+    transform: translate(-50%, -50%);
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-outline-variant);
+    transition: background-color var(--md-sys-motion-standard), height var(--md-sys-motion-standard);
+}
+
+.split-pane-divider.horizontal:hover::after {
+    height: 64px;
+    background: var(--md-sys-color-on-surface-variant);
+}
+
+/* Cards */
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    min-height: 0;
+    padding: 16px;
+    box-sizing: border-box;
+    border-radius: var(--md-sys-shape-corner-large);
+    background: var(--md-sys-color-surface-container);
+}
+
+.card-label {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.current-slide {
+    flex: 3;
 }
 
 .bottom-row {
     flex: 2;
     display: flex;
-    gap: 1rem;
+    gap: 12px;
     min-height: 0;
 }
 
-.slide-preview-next {
+.next-slide {
     flex: 1.4;
-    display: block;
-    float: left;
-    flex-direction: column;
-    min-height: 0;
 }
 
-.slide-control {
-    flex: 1.2;
-    display: block;
-    float: right;
-    flex-direction: column;
-    min-height: 0;
-    width: auto;
+.controls {
+    flex: 1;
+    container-type: inline-size;
 }
 
-.document-renderer {
+.notes {
+    flex: 1;
+}
+
+/* Slides */
+
+.slide-surface {
+    position: relative;
     flex: 1;
     min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.slide-surface canvas {
+    border-radius: var(--md-sys-shape-corner-extra-small);
+}
+
+.placeholder {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+    color: var(--md-sys-color-on-surface-variant);
+    text-align: center;
+}
+
+.drop-zone {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 2px dashed var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-medium);
+    background: transparent;
+    color: var(--md-sys-color-on-surface-variant);
+    font: inherit;
+    cursor: pointer;
+    transition: background-color var(--md-sys-motion-standard), border-color var(--md-sys-motion-standard);
+}
+
+.drop-zone .icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
+    color: var(--md-sys-color-primary);
+}
+
+.drop-zone:hover,
+.drop-zone:focus-visible,
+.sender.dragging .drop-zone {
+    outline: none;
+    border-color: var(--md-sys-color-primary);
+    background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+
+.drop-zone-title {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    color: var(--md-sys-color-on-surface);
+}
+
+.drop-zone-text {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+}
+
+/* Linear progress indicator */
+
+.progress {
+    height: 4px;
+    flex-shrink: 0;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-secondary-container);
     overflow: hidden;
 }
 
-.document-renderer .react-pdf__Document {
-    width: 100%;
+.progress-indicator {
     height: 100%;
+    border-radius: inherit;
+    background: var(--md-sys-color-primary);
+    transition: width var(--md-sys-motion-standard);
 }
 
-.document-renderer .react-pdf__Page {
+/* Controls */
+
+.controls-content {
+    flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background: none !important;
+    justify-content: center;
+    gap: 12px;
+    min-height: 0;
 }
 
-.document-renderer canvas {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto !important;
-    height: auto !important;
-    display: block !important;
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.split-pane-pane-custom.left div {
+.page-counter {
+    min-width: 4ch;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
 
-    div {
-        display: block;
-        flex-direction: column;
+.page-total {
+    font-size: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Shrink the controls in narrow cards */
+@container (max-width: 240px) {
+    .navigation .icon-button.large {
+        width: 48px;
+        height: 48px;
     }
 
-    .document-renderer {
-        height: 85%;
-        max-height: 85%;
-        width: 100%;
-        display: block;
-        align-items: center;
-        justify-content: center;
-
-        .react-pdf__Page {
-            display: flex;
-            justify-content: center;
-            max-height: 100% !important;
-            width: 100%;
-            height: auto;
-            padding: 0 !important;
-
-            canvas {
-                max-height: 100% !important;
-                width: auto !important;
-                height: 100% !important;
-            }
-        }
+    .page-counter {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 
-input {
-    display: none;
+.timer-value {
+    font-size: 22px;
+    line-height: 28px;
+    font-variant-numeric: tabular-nums;
+    color: var(--md-sys-color-on-surface-variant);
+    transition: color var(--md-sys-motion-standard);
 }
 
-.button {
-    background: var(--accent);
-    color: black;
-    font-weight: bold;
-    font-size: 0.8em;
-    height: 3em;
-    border: none;
-    border-radius: 1em;
-    margin: 1px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    cursor: pointer;
+.timer.running .timer-value {
+    color: var(--md-sys-color-on-surface);
 }
 
-.button:hover {
-    filter: brightness(0.7);
-    font-weight: bolder;
+/* Notes */
+
+.notes-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.button.start {
-    margin: auto;
-    width: 13em;
-}
-
-.button.upload {
-    padding: 1em 3.6em;
-}
-
-.button.previous {
-    border-radius: 1em 0 0 1em;
-    width: 5em;
-}
-
-.button.next {
-    border-radius: 0 1em 1em 0;
-    width: 8em;
-}
-
-.split-pane-pane-custom.right {
-    border-radius: 0 1em 1em 0;
-    padding: 1em;
-    box-sizing: border-box;
-    overflow-y: hidden;
-}
-
-.split-pane-divider.horizontal {
-    width: 20px;
-    margin: 0 calc(-1 * var(--slider-width));
-    border-left: var(--slider-width) solid rgba(255, 255, 255, 0);
-    border-right: var(--slider-width) solid rgba(255, 255, 255, 0);
-    cursor: col-resize;
-    background: white;
-    transition: var(--transition);
-    background: var(--slider-color) !important;
-    z-index: 1;
-    box-sizing: border-box;
-    background-clip: padding-box;
-}
-
-.split-pane-divider.horizontal:hover {
-    border-left: var(--slider-width) solid var(--accent-bg);
-    border-right: var(--slider-width) solid var(--accent-bg);
-    background: var(--accent-bg);
-    transition: var(--transition);
+.notes-empty code {
+    padding: 0 4px;
+    border-radius: var(--md-sys-shape-corner-extra-small);
+    background: var(--md-sys-color-surface-container-highest);
 }
